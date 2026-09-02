@@ -58,6 +58,33 @@ def desplay_students(students):
 desplay_students(students)
 
 
+notes = [14, 10, 18] # Maths, Francais, Sport
+coefficients = [3, 2, 1]
+
+def calculer_moyenne_ponderee(notes, coefficients):
+    if len(notes) != len(coefficients):
+        print("the notes and coefficients shoud be the same length")
+        return
+    total_coefficients = sum(coefficients)
+    total_notes_ponderee = 0
+    for i in range(len(notes)):
+        total_notes_ponderee += coefficients[i] * notes[i] 
+    
+    return total_notes_ponderee / total_coefficients
+print(f"the moyeen pondu is :  {round(calculer_moyenne_ponderee(notes, coefficients), 2)}")
+
+
+def moyenne_groupe(students):
+    if not students:
+        print("need students")
+        return
+    students_length = len(students)
+    moyenne_total = 0
+    for student in students:
+        moyenne_total += calculer_moyenne(student["notes"])
+    return moyenne_total / students_length
+
+print(f"the moyenne_groupe is : {round(moyenne_groupe(students), 2)}")
 
 print("==MODULE III===")
 
