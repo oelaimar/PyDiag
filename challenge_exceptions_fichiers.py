@@ -189,5 +189,69 @@ print(compter_lignes("courses.txt"))
 # the diff between "r+" and "w+" is "r+" the file must be existing
 
 
-print("==chalange III==")
+print("==chalange IV=")
 
+def lire_fichier_securise(chemin):
+    try:
+        with open(chemin, "r", encoding = "utf-8") as file:
+            lines = file.readlines()
+            print("Contenu du fichier renvoye sous forme de liste de lignes.")
+    except FileNotFoundError:
+        print(f"Erreur : le fichier {chemin} n'existe pas.")
+
+lire_fichier_securise("courses.txt")
+lire_fichier_securise("inexistant.txt")
+
+import csv
+def calculer_moyenne_csv(chemin):
+    sum_notes = 0
+    count_notes = 0
+    with open(chemin, "r", encoding = "utf-8") as file:
+        reader = csv.reader(file)
+        next(reader)
+        for row in reader:
+            try:
+                sum_notes += int(row[1])
+                count_notes += 1
+            except ValueError:
+                print(f"Attention : note invalide pour {row[0]} (\"{row[1]}\"), ligne ignoree.")
+
+        print(f"Moyenne calculee ({count_notes} notes valides) : {sum_notes / count_notes : .2f}")
+
+calculer_moyenne_csv("notes.csv")
+
+# 4.3
+
+stock = {"pommes": 20, "bananes": 4, "oranges": 15}
+commandes_brutes = [
+    "pommes,5",
+    "bananes,10",
+    "kiwis,2",
+    "oranges,abc",
+    "oranges,5",
+]
+
+with open("journal.txt", "w") as journal:
+    for cmd in commandes_brutes:
+        produit, qte_str = cmd.split(",")
+        try:
+            qte = int(qte_str)
+            if produit not in stock:
+                raise KeyError(f"{produit} : produit inconnu")
+            if stock[produit] < qte:
+                raise StockInsuffisantError(
+                    f"{produit} : stock insuffisant (demande {qte}, dispo {stock[produit]})"
+                )
+            stock[produit] -= qte
+            ligne = f"[OK] {produit} : -{qte} (reste {stock[produit]})"
+        except ValueError:
+            ligne = f"[ERREUR] {produit} : quantite invalide (\"{qte_str}\")"
+        except KeyError as e:
+            ligne = f"[ERREUR] {e.args[0]}"
+        except StockInsuffisantError as e:
+            ligne = f"[ERREUR] {e}"
+
+        journal.write(ligne + "\n")
+
+with open("journal.txt", "r") as journal:
+    print(journal.read())
