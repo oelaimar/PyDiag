@@ -1,3 +1,5 @@
+print("== block I==")
+
 class ErrorDisponible(Exception):
     pass
 
@@ -15,8 +17,7 @@ class Livre:
         return f"\"{self.titre}\" de {self.auteur}  -- : {"disponible" if self.disponible else "emprunte"}"
 
 class Adherent:
-    banque = "Ma Banque"
-    nombre_comptes = 0
+
     def __init__(self, nom):
         self.nom = nom
         self.livres_empruntes = []
@@ -62,7 +63,7 @@ ali.rendre_livre(livre)
 print(livre)
 print(ali.nombre_livres_empruntes())
 
-
+print("==block II==")
 class CompteBancaire:
 
     nom_banque = "BanquePyDiag"
@@ -71,7 +72,7 @@ class CompteBancaire:
     def __init__(self, nom, solde_initial = 0):
         self.__sold = solde_initial
         self.nom = nom
-        CompteBancaire.nom_banque += 1
+        CompteBancaire.nombre_comptes += 1
 
     @property
     def solde(self):
@@ -102,3 +103,52 @@ try:
     compte.solde = 5000
 except:
     print("AttributeError: can't set attribute 'solde'")
+
+print("==block III==")
+
+from abc import ABC, abstractmethod
+
+class Vehicule(ABC):
+
+    def __init__(self, marque, immatriculation):
+        self.marque = marque
+        self.immatriculation = immatriculation
+
+    @abstractmethod
+    def tarif_journalier(self):
+        pass
+
+class Voiture(Vehicule):
+    def __init__(self, marque, immatriculation, nombre_places):
+        super().__init__(marque, immatriculation)
+        self.nombre_places = nombre_places
+
+    def tarif_journalier(self):
+        return 30 + self.nombre_places * 0.2
+
+    def __str__(self):
+        return f"Voiture {self.marque} {self.immatriculation} -- {self.nombre_places} places"
+
+class Moto(Vehicule):
+    def __init__(self, marque, immatriculation, cylindree):
+        super().__init__(marque, immatriculation)
+        self.cylindree = cylindree
+
+    def tarif_journalier(self):
+        return 10 + self.cylindree * 0.3
+    def __str__(self):
+        return f"Voiture {self.marque} {self.immatriculation} -- {self.cylindree} cylindrees"
+
+class Camion(Vehicule):
+    def __init__(self, marque, immatriculation, charge_utile, base):
+        super().__init__(marque, immatriculation)
+        self.charge_utile = charge_utile
+    def tarif_journalier(self):
+        return 20 + self.charge_utile * 0.1
+
+    def __str__(self):
+        return f"Voiture {self.marque} {self.immatriculation} -- {self.charge_utile} charge"
+
+print("==bloc IV==")
+
+
