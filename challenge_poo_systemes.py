@@ -151,4 +151,37 @@ class Camion(Vehicule):
 
 print("==bloc IV==")
 
+class Modele(ABC):
+    @abstractmethod
+    def entrainer(self, donnees):
+        pass
+    @abstractmethod
+    def predire(self, entree):
+        pass
+
+class ModeleMoyenne(Modele):
+    def entrainer(self, donnees):
+        return sum(donnees) / len(donnees)
+    def predire(self, entree):
+        pass
+
+class ModeleLineaireSimple(Modele):
+
+    def __init__(self, poids, biais):
+        self.poids = poids
+        self.biais = biais
+
+    def entrainer(self, donnees):
+        pass
+    def predire(self, entree):
+        return entree * 2 + self.biais
+
+class Pipeline:
+    def __init__(self, model : Modele, pre_entrainer):
+        self.model = model
+        self.pre_entrainer = pre_entrainer
+        self.pre_entrainer = pre_entrainer
+    def executer(self, donnees, entree):
+        self.model.entrainer(self.pre_entrainer(donnees))
+        return self.model.predire(entree)
 
